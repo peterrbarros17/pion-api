@@ -1,9 +1,13 @@
 import mongoose from "mongoose";
 
 async function dbConnect() {
-  mongoose.connect(process.env.DB_CONNECTION_STRING);
+  try {
+    mongoose.connect(process.env.DB_CONNECTION_STRING);
 
-  return mongoose.connection;
+    return mongoose.connection;
+  } catch (error) {
+    throw new Error("Erro ao conectar ao DB", error);
+  }
 }
 
 export default dbConnect;

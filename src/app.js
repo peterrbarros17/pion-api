@@ -1,5 +1,6 @@
 import express from "express";
 import dbConnect from "./config/dbConnect.js";
+import routes from "./routes/index.js";
 
 const app = express();
 
@@ -13,8 +14,6 @@ conexao.once("open", () => {
   console.log("Conexão com o DB, ok!");
 });
 
-app.get("/", (req, res) => {
-  res.status(200).send("Pion API");
-});
+routes(app);
 
 export default app;
