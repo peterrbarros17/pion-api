@@ -6,8 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node --watch server.js",
-    "deploy": "curl -X POST https://pion-api.vercel.app/homepage -H 'Content-Type: application/json' -d '{}'"
+    "dev": "node --watch server.js"
   },
   "keywords": [],
   "author": "",
