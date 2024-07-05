@@ -9,8 +9,12 @@ interface HomeModelInterface extends Document {
 const homeModel = new Schema(
   {
     id: { type: Schema.Types.ObjectId, require: true, unique: true },
+    alt: { type: Schema.Types.String, require: true, unique: true },
+    url: { type: Schema.Types.String, require: true, unique: true },
     title: { type: Schema.Types.String, require: true, unique: true },
     description: { type: Schema.Types.String, require: true, unique: true },
+    textButton: { type: Schema.Types.String, require: true, unique: true },
+    slug: { type: Schema.Types.String, require: true, unique: true },
   },
   { versionKey: false }
 );
