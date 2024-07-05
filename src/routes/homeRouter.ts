@@ -1,7 +1,7 @@
-import express from "express";
+import { Router } from "express";
 import HomeController from "../controllers/homeController.js";
 
-const route = express.Router();
+const route = Router();
 
 route.get("/homepage", HomeController.listarReview);
 route.post("/homepage", HomeController.cadastrarReview);
