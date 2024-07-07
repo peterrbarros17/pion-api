@@ -15,11 +15,18 @@ class HomeController {
     }
   }
   static async cadastrarReview(req: Request, res: Response) {
+    const data = await req.body;
     try {
-      const novoReview = await Home.create(req.body);
-      res
-        .status(201)
-        .json({ message: "review cadastrado com sucesso", Home: novoReview });
+      if (Array.isArray(data)) {
+        const novasReviews = await Home.insertMany(data);
+        res
+          .status(201)
+          .json({ message: "reviews cadastradas!", Home: novasReviews });
+      } else {
+        const novoReview = new Home(data);
+        await novoReview.save();
+        res.status(201).json({ novoReview });
+      }
     } catch (err) {
       if (err instanceof Error) {
         res

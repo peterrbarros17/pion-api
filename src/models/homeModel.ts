@@ -1,20 +1,22 @@
-import { Schema, model, Document, Types } from "mongoose";
+import { Schema, model, Document } from "mongoose";
 
 interface HomeModelInterface extends Document {
-  id: Types.ObjectId;
   title: string;
   description: string;
+  alt: string;
+  url: string;
+  textButton: string;
+  slug: string;
 }
 
 const homeModel = new Schema(
   {
-    id: { type: Schema.Types.ObjectId, require: true, unique: true },
-    alt: { type: Schema.Types.String, require: true, unique: true },
-    url: { type: Schema.Types.String, require: true, unique: true },
-    title: { type: Schema.Types.String, require: true, unique: true },
-    description: { type: Schema.Types.String, require: true, unique: true },
-    textButton: { type: Schema.Types.String, require: true, unique: true },
-    slug: { type: Schema.Types.String, require: true, unique: true },
+    alt: { type: Schema.Types.String, require: true },
+    url: { type: Schema.Types.String, require: true },
+    title: { type: Schema.Types.String, require: true },
+    description: { type: Schema.Types.String, require: true },
+    textButton: { type: Schema.Types.String, require: true },
+    slug: { type: Schema.Types.String, require: true },
   },
   { versionKey: false }
 );
