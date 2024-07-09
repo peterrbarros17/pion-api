@@ -1,12 +1,12 @@
 import { Schema, model, Document } from "mongoose";
 
-interface NewPostModalInterface extends Document {
+interface NewsInterface extends Document {
   title: string;
   description: string;
   slug: string;
 }
 
-const newPostModal = new Schema(
+const newsSchema = new Schema(
   {
     title: { type: Schema.Types.String, require: true },
     description: { type: Schema.Types.String, require: true },
@@ -15,6 +15,6 @@ const newPostModal = new Schema(
   { versionKey: false }
 );
 
-const NewPost = model<NewPostModalInterface>("NewPost", newPostModal);
+const News = model<NewsInterface>("News", newsSchema);
 
-export default NewPost;
+export default News;

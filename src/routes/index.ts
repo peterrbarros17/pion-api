@@ -1,7 +1,7 @@
 import { Application, Request, Response, json } from "express";
-import home from "./homeRouter.js";
-import newPost from "./newPost.js";
-import review from "./reviewRouter.js";
+import home from "./homeCardRouter.js";
+import news from "./newsRouter.js";
+import reviews from "./reviewsRouter.js";
 
 const routes = (app: Application) => {
   const htmlResponse = `
@@ -18,7 +18,7 @@ const routes = (app: Application) => {
       <ul>
           <li><a href="/homepage">Homepage</a></li>
           <li><a href="/newspage">Newspage</a></li>
-          <li><a href="/reviewpage">Reviewpage</a></li>
+          <li><a href="/reviewspage">Reviewspage</a></li>
       </ul>
   </body>
   </html>
@@ -28,8 +28,8 @@ const routes = (app: Application) => {
     .get((_: Request, res: Response) => res.status(200).send(htmlResponse));
 
   app.use(json(), home);
-  app.use(json(), newPost);
-  app.use(json(), review);
+  app.use(json(), news);
+  app.use(json(), reviews);
 };
 
 export default routes;

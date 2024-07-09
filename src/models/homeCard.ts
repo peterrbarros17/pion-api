@@ -1,6 +1,6 @@
 import { Schema, model, Document } from "mongoose";
 
-interface ReviewsModelInterface extends Document {
+interface HomeCardInterface extends Document {
   title: string;
   description: string;
   alt: string;
@@ -9,7 +9,7 @@ interface ReviewsModelInterface extends Document {
   slug: string;
 }
 
-const reviewsModel = new Schema(
+const homeCardSchema = new Schema(
   {
     alt: { type: Schema.Types.String, require: true },
     url: { type: Schema.Types.String, require: true },
@@ -21,6 +21,6 @@ const reviewsModel = new Schema(
   { versionKey: false }
 );
 
-const Review = model<ReviewsModelInterface>("Reviews", reviewsModel);
+const HomeCard = model<HomeCardInterface>("HomeCard", homeCardSchema);
 
-export default Review;
+export default HomeCard;
