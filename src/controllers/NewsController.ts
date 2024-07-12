@@ -1,27 +1,27 @@
 import { Request, Response } from "express";
-import Reviews from "../models/reviews.js";
+import News from "../models/NewsModel.js";
 
-class ReviewsController {
-  static async getAll(_: Request, res: Response) {
+class NewsController {
+  public static async getAll(_: Request, res: Response): Promise<void> {
     try {
-      const reviews = await Reviews.find({});
-      res.status(200).json(reviews);
+      const news = await News.find({});
+      res.status(200).json(news);
     } catch (err) {
       if (err instanceof Error) {
-        res.status(500).json({ message: `${err.message} - failed request` });
+        res.status(500).json({ message: `${err.message} - fail request` });
       }
     }
   }
-  static async create(req: Request, res: Response) {
+  public static async create(req: Request, res: Response): Promise<void> {
     const data = await req.body;
     try {
       if (Array.isArray(data)) {
-        const newReviews = await Reviews.insertMany(data);
-        res.status(201).json({ message: "registered!", Review: newReviews });
+        const news = await News.insertMany(data);
+        res.status(201).json({ message: "registered", News: news });
       } else {
-        const newReview = new Reviews(data);
-        await newReview.save();
-        res.status(201).json({ newReview });
+        const news = new News(data);
+        await news.save();
+        res.status(201).json({ news });
       }
     } catch (err) {
       if (err instanceof Error) {
@@ -31,10 +31,10 @@ class ReviewsController {
       }
     }
   }
-  static async update(req: Request, res: Response) {
+  public static async update(req: Request, res: Response): Promise<void> {
     try {
       const id = req.params.id;
-      await Reviews.findByIdAndUpdate(id, req.body);
+      await News.findByIdAndUpdate(id, req.body);
       res.status(200).json({ message: "updated" });
     } catch (err) {
       if (err instanceof Error) {
@@ -42,10 +42,10 @@ class ReviewsController {
       }
     }
   }
-  static async delete(req: Request, res: Response) {
+  public static async delete(req: Request, res: Response): Promise<void> {
     try {
       const id = req.params.id;
-      await Reviews.findByIdAndDelete(id);
+      await News.findByIdAndDelete(id);
       res.status(200).json({ message: "deleted" });
     } catch (err) {
       if (err instanceof Error) {
@@ -55,4 +55,4 @@ class ReviewsController {
   }
 }
 
-export default ReviewsController;
+export default NewsController;
