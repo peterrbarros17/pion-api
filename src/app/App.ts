@@ -8,6 +8,7 @@ class App {
   constructor() {
     this.app = e();
     this.setRoutes();
+    this.connectDataBase();
   }
 
   public listen(PORT: string | number): void {
@@ -19,16 +20,21 @@ class App {
   private setRoutes(): void {
     new Routes(this.app).initRoutes();
   }
+
+  private async connectDataBase(): Promise<any> {
+    const connection = await dbConnect();
+
+    connection.on("error", this.onDataBaseError);
+
+    connection.once("open", this.onDataBaseOpen);
+  }
+
+  private onDataBaseError(): void {
+    console.log("Erro ao conectar ao DB");
+  }
+  private onDataBaseOpen(): void {
+    console.log("Conexão com o DB, ok!");
+  }
 }
 
 export default App;
-
-const conexao = await dbConnect();
-
-conexao.on("error", () => {
-  console.log("Erro ao conectar ao DB");
-});
-
-conexao.once("open", () => {
-  console.log("Conexão com o DB, ok!");
-});

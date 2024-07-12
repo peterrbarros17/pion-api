@@ -6,7 +6,7 @@ async function dbConnect(): Promise<Connection> {
 
     return mongoose.connection;
   } catch (err) {
-    throw new Error("Erro ao conectar ao DB");
+    throw new Error("Erro ao conectar ao DB" + err);
   }
 }
 
