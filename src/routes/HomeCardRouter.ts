@@ -11,6 +11,7 @@ class HomeCardRouter {
 
   private initRoutes(): void {
     this.app.get("/homepage", HomeCardController.getAll);
+    this.app.get("/homepage/:id", HomeCardController.getById);
     this.app.post("/homepage", HomeCardController.create);
     this.app.put("/homepage/:id", HomeCardController.update);
     this.app.delete("/homepage/:id", HomeCardController.delete);

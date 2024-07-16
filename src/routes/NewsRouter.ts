@@ -11,6 +11,7 @@ class NewsRouter {
 
   private initRoutes(): void {
     this.app.get("/newspage", NewsController.getAll);
+    this.app.get("/newspage/:id", NewsController.getById);
     this.app.post("/newspage", NewsController.create);
     this.app.put("/newspage/:id", NewsController.update);
     this.app.delete("/newspage/:id", NewsController.delete);

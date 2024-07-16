@@ -12,6 +12,19 @@ class ReviewsController {
       }
     }
   }
+  public static async getById(req: Request, res: Response): Promise<void> {
+    try {
+      const id = req.params.id;
+      const review = await Reviews.findById(id);
+      res.status(200).json({ review });
+    } catch (err) {
+      if (err instanceof Error) {
+        res
+          .status(500)
+          .json({ message: `${err.message} - failed to find by id` });
+      }
+    }
+  }
   public static async create(req: Request, res: Response): Promise<void> {
     const data = await req.body;
     try {

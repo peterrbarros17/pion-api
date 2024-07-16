@@ -11,6 +11,7 @@ class ReviewsRouter {
 
   private initRoutes(): void {
     this.app.get("/reviewspage", ReviewsController.getAll);
+    this.app.get("/reviewspage/:id", ReviewsController.getById);
     this.app.post("/reviewspage", ReviewsController.create);
     this.app.put("/reviewspage/:id", ReviewsController.update);
     this.app.delete("/reviewspage/:id", ReviewsController.delete);

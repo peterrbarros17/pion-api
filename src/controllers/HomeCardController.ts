@@ -12,6 +12,19 @@ class HomeCardController {
       }
     }
   }
+  public static async getById(req: Request, res: Response): Promise<void> {
+    try {
+      const homeCardID = req.params.id;
+      const homeCard = await HomeCard.findById(homeCardID);
+      res.status(200).json({ homeCard });
+    } catch (err) {
+      if (err instanceof Error) {
+        res
+          .status(500)
+          .json({ message: `${err.message} - failed to find by id` });
+      }
+    }
+  }
   public static async create(req: Request, res: Response): Promise<void> {
     try {
       const newHomeCard = await HomeCard.create(req.body);
