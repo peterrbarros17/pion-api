@@ -11,12 +11,18 @@ interface HomeCardInterface extends Document {
 
 const homeCardSchema = new Schema(
   {
-    alt: { type: Schema.Types.String, require: true },
-    url: { type: Schema.Types.String, require: true },
-    title: { type: Schema.Types.String, require: true },
-    description: { type: Schema.Types.String, require: true },
-    textButton: { type: Schema.Types.String, require: true },
-    slug: { type: Schema.Types.String, require: true },
+    alt: { type: Schema.Types.String, require: [true, "alt is required"] },
+    url: { type: Schema.Types.String, require: [true, "url is required"] },
+    title: { type: Schema.Types.String, require: [true, "title is required"] },
+    description: {
+      type: Schema.Types.String,
+      require: [true, "description is required"],
+    },
+    textButton: {
+      type: Schema.Types.String,
+      require: [true, "textButton is required"],
+    },
+    slug: { type: Schema.Types.String, require: [true, "slug is required"] },
   },
   { versionKey: false }
 );

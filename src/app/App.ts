@@ -1,6 +1,8 @@
 import e, { Application } from "express";
 import dbConnect from "../config/dbConnect.js";
 import Routes from "../routes/Routes.js";
+import manipulation404 from "../middlewares/manipulation404.js";
+import manipulationErrors from "../middlewares/manipulationErros.js";
 
 class App {
   private app: Application;
@@ -19,6 +21,12 @@ class App {
 
   private setRoutes(): void {
     new Routes(this.app).initRoutes();
+    this.setManipulationErrors();
+  }
+
+  private setManipulationErrors(): void {
+    this.app.use(manipulation404);
+    this.app.use(manipulationErrors);
   }
 
   private async connectDataBase(): Promise<any> {

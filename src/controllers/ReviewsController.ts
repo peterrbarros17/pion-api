@@ -1,31 +1,42 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import Reviews from "../models/ReviewsModel.js";
+import NotFound from "../errs/NotFound.js";
 
 class ReviewsController {
-  public static async getAll(_: Request, res: Response): Promise<void> {
+  public static async getAll(
+    _: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const reviews = await Reviews.find({});
       res.status(200).json(reviews);
     } catch (err) {
-      if (err instanceof Error) {
-        res.status(500).json({ message: `${err.message} - failed request` });
-      }
+      next(err);
     }
   }
-  public static async getById(req: Request, res: Response): Promise<void> {
+  public static async getById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const id = req.params.id;
       const review = await Reviews.findById(id);
-      res.status(200).json({ review });
-    } catch (err) {
-      if (err instanceof Error) {
-        res
-          .status(500)
-          .json({ message: `${err.message} - failed to find by id` });
+      if (review !== null) {
+        res.status(200).json({ review });
+      } else {
+        next(new NotFound("review id not found"));
       }
+    } catch (err) {
+      next(err);
     }
   }
-  public static async create(req: Request, res: Response): Promise<void> {
+  public static async create(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const data = await req.body;
     try {
       if (Array.isArray(data)) {
@@ -37,33 +48,41 @@ class ReviewsController {
         res.status(201).json({ newReview });
       }
     } catch (err) {
-      if (err instanceof Error) {
-        res
-          .status(500)
-          .json({ message: `${err.message} - failed to register` });
-      }
+      next(err);
     }
   }
-  public static async update(req: Request, res: Response): Promise<void> {
+  public static async update(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const id = req.params.id;
-      await Reviews.findByIdAndUpdate(id, req.body);
-      res.status(200).json({ message: "updated" });
-    } catch (err) {
-      if (err instanceof Error) {
-        res.status(500).json({ message: `${err.message} - failed to update` });
+      const resReviews = await Reviews.findByIdAndUpdate(id, req.body);
+      if (resReviews !== null) {
+        res.status(200).json({ message: "updated" });
+      } else {
+        next(new NotFound("reviews id not found"));
       }
+    } catch (err) {
+      next(err);
     }
   }
-  public static async delete(req: Request, res: Response): Promise<void> {
+  public static async delete(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const id = req.params.id;
-      await Reviews.findByIdAndDelete(id);
-      res.status(200).json({ message: "deleted" });
-    } catch (err) {
-      if (err instanceof Error) {
-        res.status(500).json({ message: `${err.message} - failed to deleted` });
+      const resReviews = await Reviews.findByIdAndDelete(id);
+      if (resReviews !== null) {
+        res.status(200).json({ message: "deleted" });
+      } else {
+        next(new NotFound("reviews id not found"));
       }
+    } catch (err) {
+      next(err);
     }
   }
 }
