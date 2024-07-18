@@ -8,12 +8,12 @@ interface NewsInterface extends Document {
 
 const newsSchema = new Schema(
   {
-    title: { type: Schema.Types.String, require: [true, "title is required"] },
+    title: { type: Schema.Types.String, required: [true, "title is required"] },
     description: {
       type: Schema.Types.String,
-      require: [true, "description is required"],
+      required: [true, "description is required"],
     },
-    slug: { type: Schema.Types.String, require: [true, "slug is required"] },
+    slug: { type: Schema.Types.String, required: [true, "slug is required"] },
   },
   { versionKey: false }
 );

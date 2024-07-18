@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import HomeCard from "../models/HomeCardModel.js";
+import { HomeCard } from "../models/index.js";
 import NotFound from "../errs/NotFound.js";
 
 class HomeCardController {

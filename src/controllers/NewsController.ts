@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import News from "../models/NewsModel.js";
+import { News } from "../models/index.js";
 import NotFound from "../errs/NotFound.js";
 
 class NewsController {

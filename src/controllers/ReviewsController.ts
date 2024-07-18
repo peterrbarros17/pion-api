@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import Reviews from "../models/ReviewsModel.js";
+import { Reviews } from "../models/index.js";
 import NotFound from "../errs/NotFound.js";
 
 class ReviewsController {
