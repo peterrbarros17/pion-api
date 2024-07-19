@@ -18,10 +18,6 @@ const reviewsSchema = new Schema(
       type: Schema.Types.String,
       required: [true, "description is required"],
     },
-    textButton: {
-      type: Schema.Types.String,
-      required: [true, "textButton is required"],
-    },
     slug: { type: Schema.Types.String, required: [true, "slug is required"] },
   },
   { versionKey: false }
