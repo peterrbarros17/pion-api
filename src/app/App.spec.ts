@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { describe, it, expect, beforeEach } from "vitest";
-import App from "./App";
+import App from "./App.js";
 
 describe("App", () => {
   let appInstance: App;
