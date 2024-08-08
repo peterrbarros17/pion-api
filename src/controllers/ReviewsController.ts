@@ -85,6 +85,28 @@ class ReviewsController {
       next(err);
     }
   }
+  public static async filter(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const slug = req.query.slug;
+      if (slug) {
+        const review = await Reviews.findOne({ slug });
+        if (review) {
+          res.status(200).json(review);
+        } else {
+          next(new NotFound("Review with the specified slug not found"));
+        }
+      } else {
+        const reviews = await Reviews.find({});
+        res.status(200).json(reviews);
+      }
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 export default ReviewsController;

@@ -8,7 +8,9 @@ describe("App", () => {
   beforeEach(() => {
     appInstance = new App();
   });
+
   it("should instantiate the express app", () => {
     expect(appInstance).toBeInstanceOf(App);
+    expect(appInstance.listen).toBeDefined();
   });
 });
