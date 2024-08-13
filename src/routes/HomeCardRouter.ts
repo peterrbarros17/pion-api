@@ -1,5 +1,6 @@
 import { Router } from "express";
 import HomeCardController from "../controllers/HomeCardController.js";
+import authenticateJwt from "../middlewares/authenticateJwt.js";
 
 class HomeCardRouter {
   private app: Router;
@@ -12,9 +13,13 @@ class HomeCardRouter {
   private initRoutes(): void {
     this.app.get("/homepage", HomeCardController.getAll);
     this.app.get("/homepage/:id", HomeCardController.getById);
-    this.app.post("/homepage", HomeCardController.create);
-    this.app.put("/homepage/:id", HomeCardController.update);
-    this.app.delete("/homepage/:id", HomeCardController.delete);
+    this.app.post("/homepage", authenticateJwt, HomeCardController.create);
+    this.app.put("/homepage/:id", authenticateJwt, HomeCardController.update);
+    this.app.delete(
+      "/homepage/:id",
+      authenticateJwt,
+      HomeCardController.delete
+    );
   }
 
   public getRouterHomeCard(): Router {

@@ -2,6 +2,7 @@ import { Application, Request, Response, json } from "express";
 import HomeCardRouter from "./HomeCardRouter.js";
 import NewsRouter from "./NewsRouter.js";
 import ReviewsRouter from "./ReviewsRouter.js";
+import RegisterRouter from "./RegisterRouter.js";
 
 class Routes {
   constructor(private app: Application) {}
@@ -11,6 +12,7 @@ class Routes {
     this.app.use(json(), new HomeCardRouter().getRouterHomeCard());
     this.app.use(json(), new NewsRouter().getRouterNews());
     this.app.use(json(), new ReviewsRouter().getRouterReviews());
+    this.app.use(json(), new RegisterRouter().getRouterRegister());
   }
 
   private handleRootRequest(_: Request, res: Response): void {

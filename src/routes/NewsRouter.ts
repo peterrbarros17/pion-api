@@ -1,5 +1,6 @@
 import { Router } from "express";
 import NewsController from "../controllers/NewsController.js";
+import authenticateJwt from "../middlewares/authenticateJwt.js";
 
 class NewsRouter {
   private app: Router;
@@ -12,9 +13,9 @@ class NewsRouter {
   private initRoutes(): void {
     this.app.get("/newspage", NewsController.getAll);
     this.app.get("/newspage/:id", NewsController.getById);
-    this.app.post("/newspage", NewsController.create);
-    this.app.put("/newspage/:id", NewsController.update);
-    this.app.delete("/newspage/:id", NewsController.delete);
+    this.app.post("/newspage", authenticateJwt, NewsController.create);
+    this.app.put("/newspage/:id", authenticateJwt, NewsController.update);
+    this.app.delete("/newspage/:id", authenticateJwt, NewsController.delete);
   }
 
   public getRouterNews(): Router {
