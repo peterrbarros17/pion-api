@@ -1,13 +1,19 @@
 import { Schema, model, Document } from "mongoose";
 
 interface HomeCardInterface extends Document {
-  title: string;
-  description: string;
   alt: string;
   url: string;
-  textButton: string;
+  title: string;
+  description: string;
   slug: string;
 }
+
+const ContentSchema = new Schema({
+  type: { type: String, required: [true, "type is required"] },
+  text: { type: String, required: [true, "text is required"] },
+  alt: { type: String, required: [true, "alt is required"] },
+  src: { type: String, required: [true, "src is required"] },
+});
 
 const homeCardSchema = new Schema(
   {
@@ -19,6 +25,7 @@ const homeCardSchema = new Schema(
       required: [true, "description is required"],
     },
     slug: { type: Schema.Types.String, required: [true, "slug is required"] },
+    content: [ContentSchema],
   },
   { versionKey: false }
 );
