@@ -15,7 +15,7 @@ const newsSchema = new Schema(
     },
     slug: { type: Schema.Types.String, required: [true, "slug is required"] },
   },
-  { versionKey: false }
+  { versionKey: false, timestamps: true }
 );
 
 const News = model<NewsInterface>("News", newsSchema);

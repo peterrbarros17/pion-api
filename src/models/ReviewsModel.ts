@@ -26,7 +26,7 @@ const reviewsSchema = new Schema(
     slug: { type: Schema.Types.String, required: [true, "slug is required"] },
     content: [ContentSchema],
   },
-  { versionKey: false }
+  { versionKey: false, timestamps: true }
 );
 
 const Reviews = model<ReviewsInterface>("Reviews", reviewsSchema);

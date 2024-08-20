@@ -9,10 +9,16 @@ interface HomeCardInterface extends Document {
 }
 
 const ContentSchema = new Schema({
-  type: { type: String, required: [true, "type is required"] },
-  text: { type: String, required: [true, "text is required"] },
-  alt: { type: String, required: [true, "alt is required"] },
-  src: { type: String, required: [true, "src is required"] },
+  type: {
+    type: String,
+    required: [true, "type is required of content schema"],
+  },
+  text: {
+    type: String,
+    required: [true, "text is required of content schema"],
+  },
+  alt: { type: String, required: [true, "alt is required of content schema"] },
+  src: { type: String, required: [true, "src is required of content schema"] },
 });
 
 const homeCardSchema = new Schema(
@@ -27,7 +33,7 @@ const homeCardSchema = new Schema(
     slug: { type: Schema.Types.String, required: [true, "slug is required"] },
     content: [ContentSchema],
   },
-  { versionKey: false }
+  { versionKey: false, timestamps: true }
 );
 
 const HomeCard = model<HomeCardInterface>("HomeCard", homeCardSchema);
