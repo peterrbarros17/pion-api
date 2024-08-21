@@ -3,12 +3,13 @@ import HomeCardRouter from "./HomeCardRouter.js";
 import NewsRouter from "./NewsRouter.js";
 import ReviewsRouter from "./ReviewsRouter.js";
 import LoginRouter from "./LoginRouter.js";
-
+import cors from "cors";
 class Routes {
   constructor(private app: Application) {}
 
   private setupRoutes(): void {
     this.app.route("/").get(this.handleRootRequest);
+    this.app.use(cors());
     this.app.use(json(), new HomeCardRouter().getRouterHomeCard());
     this.app.use(json(), new NewsRouter().getRouterNews());
     this.app.use(json(), new ReviewsRouter().getRouterReviews());
