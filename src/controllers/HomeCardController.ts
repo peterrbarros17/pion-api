@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { HomeCard } from "../models/index.js";
+import { HomeCard, News, Reviews } from "../models/index.js";
 import NotFound from "../errs/NotFound.js";
 
 class HomeCardController {
@@ -74,6 +74,30 @@ class HomeCardController {
       } else {
         next(new NotFound("home card id not found"));
       }
+    } catch (err) {
+      next(err);
+    }
+  }
+  public static async search(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const title = req.query.title;
+
+      let filter: any = {};
+      if (title) {
+        filter = { title: { $regex: title as string, $options: "i" } };
+      }
+      const [homecard, news, reviews] = await Promise.all([
+        HomeCard.find(filter),
+        News.find(filter),
+        Reviews.find(filter),
+      ]);
+      const allPosts = [...homecard, ...news, ...reviews];
+
+      res.status(200).json(allPosts);
     } catch (err) {
       next(err);
     }

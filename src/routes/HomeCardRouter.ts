@@ -20,6 +20,7 @@ class HomeCardRouter {
       authenticateJwt,
       HomeCardController.delete
     );
+    this.app.get("/search", HomeCardController.search);
   }
 
   public getRouterHomeCard(): Router {
