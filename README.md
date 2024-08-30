@@ -1,63 +1,41 @@
-# Sistema de CRUD com MongoDB e API RESTful
+# Pion API
 
-Este projeto é uma aplicação Node.js utilizando Express, TypeScript, MongoDB e Mongoose.
+API desenvolvida para o blog de reviews de jogos digitais.
 
-A aplicação inclui:
+## Descrição
 
-- Modelo orientado a objetos (OOP).
-- ODM (Object Data Modeling) para documentos MongoDB.
-- Rotas que incluem os métodos GET, POST, PUT e DELETE com seus respectivos endpoints.
-- Middlewares que lidam com as requisições, fazendo o parsing de JSON e tratamento de erros nas rotas.
+Este projeto é uma API RESTful construída com Node.js, Express, TypeScript, MongoDB e Mongoose. Ele oferece endpoints para gerenciar conteúdo de um blog de jogos, permitindo operações CRUD (Create, Read, Update, Delete) em várias páginas, como a homepage e a página de notícias.
 
-## Deployment
+## Funcionalidades
 
-Vercel: https://pion-api.vercel.app/
+- **OOP:** Implementação de modelo orientado a objetos.
+- **ODM:** Utilização do Mongoose para modelagem de dados no MongoDB.
+- **Middlewares:** Tratamento de requisições, parsing de JSON e gerenciamento de erros.
+- **Autenticação:** Integração com JWT para proteção de rotas e controle de acesso.
+- **Deploy:** Hospedagem na Vercel.
 
-### Exemplos de Requisições
+## Endpoints
 
-A aplicação inclui os seguintes endpoints:
+- `GET /homepage`: Retorna todos os itens da homepage.
+- `GET /homepage/:id`: Retorna um item específico da homepage pelo ID.
+- `POST /homepage`: Cria um novo item na homepage.
+- `PUT /newspage/:id`: Atualiza um item na página de notícias.
+- `DELETE /reviewspage/:id`: Deleta um item na página de reviews.
 
-/homepage <br>
-/newspage <br>
-/reviewspage <br>
+## Instalação
 
-GET /homepage - **Pega todos os itens em homepage**
+## Instalação
 
-GET http://localhost:3000/homepage
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/peterrbarros17/pion-api.git
+3. ```bash
+   cd-pion-api
+4. ```bash
+   npm install
 
-GET /homepage/:id - **Pega o item em homepage por ID**
+5. Configure as variáveis de ambiente (MongoDB URI, JWT Secret, etc.).
 
-GET http://localhost:3000/homepage/:id
-
-##
-
-POST /homepage - **Cria um item em homepage**
-
-POST http://localhost:3000/homepage <br>
-
-{ <br>
-"alt": "alt para imagem", <br>
-"url": "https://imagem.com", <br>
-"title": "Nova Notícia", <br>
-"description": "Descrição da nova notícia", <br>
-"slug": "nova-noticia" <br>
-"textButton": "Leia mais...", <br>
-}
-
-##
-
-PUT /newspage/:id - **Atualiza dados de um item selecionado**
-
-PUT http://localhost:3000/newspage/:id
-
-{ <br>
-"title": "Notícia Atualizada", <br>
-"description": "Descrição atualizada", <br>
-"slug": "noticia-atualizada" <br>
-}
-
-##
-
-DELETE /reviewspage/:id - **Deleta um item selecionado**
-
-DELETE http://localhost:3000/reviewspage/:id
+6. Inicie o servidor:
+```bash
+   npm run dev
