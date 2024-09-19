@@ -5,7 +5,7 @@ import manipulation404 from "../middlewares/manipulation404.js";
 import manipulationErrors from "../middlewares/manipulationErros.js";
 
 class App {
-  private app: Application;
+  public app: Application;
 
   constructor() {
     this.app = e();
