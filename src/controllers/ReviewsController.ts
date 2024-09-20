@@ -60,7 +60,7 @@ class ReviewsController {
       const id = req.params.id;
       const resReviews = await Reviews.findByIdAndUpdate(id, req.body);
       if (resReviews !== null) {
-        res.status(200).json({ message: "updated" });
+        res.status(204).json({ message: "updated" });
       } else {
         next(new NotFound("reviews id not found"));
       }

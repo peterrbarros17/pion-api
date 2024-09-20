@@ -60,7 +60,7 @@ class NewsController {
       const id = req.params.id;
       const resNews = await News.findByIdAndUpdate(id, req.body);
       if (resNews !== null) {
-        res.status(200).json({ message: "updated" });
+        res.status(204).json({ message: "updated" });
       } else {
         next(new NotFound("news id not found"));
       }

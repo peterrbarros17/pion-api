@@ -1,6 +1,6 @@
 import "dotenv/config.js";
 import request from "supertest";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, test } from "vitest";
 import App from "../../app/App.js";
 
 let server: App;
@@ -28,7 +28,7 @@ describe("Method GET post on /newspage", () => {
 });
 
 const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmJiYzIzZDQ5NTI1ODQ2MzFjYzFlNzgiLCJpYXQiOjE3MjY4NDQ0NDYsImV4cCI6MTcyNjg0ODA0Nn0.gF_bgS1WdfPIj9xGJLlwzUr4xutw4QzdIXaJSOwo1n4";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmJiYzIzZDQ5NTI1ODQ2MzFjYzFlNzgiLCJpYXQiOjE3MjY4NjIwNDMsImV4cCI6MTcyNjg2NTY0M30.clzF5LmGpPA1TLIyQIva6YhnatY__SnpQo1DN23lTfc";
 
 let idResponse: string;
 describe("Method POST on /newspage", () => {
@@ -58,6 +58,20 @@ describe("Method POST on /newspage", () => {
 describe("Method GET on /newspage/id", () => {
   it("return the post selected", async () => {
     await request(server.app).get(`/newspage/${idResponse}`).expect(200);
+  });
+});
+
+describe("Method PUT on /newspage/id", () => {
+  test.each([
+    ["title", { title: "frost" }],
+    ["description", { description: "neves" }],
+    ["slug", { slug: "frostt" }],
+  ])("change the %s field", async (key: string, param: {}) => {
+    await request(server.app)
+      .put(`/newspage/${idResponse}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send(param)
+      .expect(204);
   });
 });
 

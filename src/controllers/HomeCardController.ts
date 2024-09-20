@@ -53,7 +53,7 @@ class HomeCardController {
       const id = req.params.id;
       const resHomecard = await HomeCard.findByIdAndUpdate(id, req.body);
       if (resHomecard !== null) {
-        res.status(200).json({ message: "updated" });
+        res.status(204).json({ message: "updated" });
       } else {
         next(new NotFound("home card id not found"));
       }
