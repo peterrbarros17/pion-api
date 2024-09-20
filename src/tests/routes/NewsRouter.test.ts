@@ -28,9 +28,9 @@ describe("Method GET post on /newspage", () => {
 });
 
 const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmJiYzIzZDQ5NTI1ODQ2MzFjYzFlNzgiLCJpYXQiOjE3MjY3ODczNjUsImV4cCI6MTcyNjc5MDk2NX0.QLz-5Us7WVGJVXc4cSS8lOBfEB2LIKTGYkrwIl2Zd1Q";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmJiYzIzZDQ5NTI1ODQ2MzFjYzFlNzgiLCJpYXQiOjE3MjY4NDQ0NDYsImV4cCI6MTcyNjg0ODA0Nn0.gF_bgS1WdfPIj9xGJLlwzUr4xutw4QzdIXaJSOwo1n4";
 
-let idResponse: any;
+let idResponse: string;
 describe("Method POST on /newspage", () => {
   it("create a new post", async () => {
     const res = await request(server.app)
@@ -43,18 +43,29 @@ describe("Method POST on /newspage", () => {
         slug: "frost-punk-2",
       })
       .expect(201);
-    idResponse = res.body.content_id;
-  });
-});
 
-describe("Method DELETE on /newspage/id", () => {
-  it("delete new post added", async () => {
-    await request(server.app).delete(`/newspage/${idResponse}`);
+    idResponse = res.body.news._id;
+  });
+  it("not add anything when passing the empty body", async () => {
+    await request(server.app)
+      .post("/newspage")
+      .set("Authorization", `Bearer ${token}`)
+      .send({})
+      .expect(400);
   });
 });
 
 describe("Method GET on /newspage/id", () => {
   it("return the post selected", async () => {
-    await request(server.app).get(`/newspage/${idResponse}`);
+    await request(server.app).get(`/newspage/${idResponse}`).expect(200);
+  });
+});
+
+describe("Method DELETE on /newspage/id", () => {
+  it("delete new post added", async () => {
+    await request(server.app)
+      .delete(`/newspage/${idResponse}`)
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200);
   });
 });
