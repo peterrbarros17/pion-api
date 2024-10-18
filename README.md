@@ -1,20 +1,19 @@
 # Pion API
 
-API desenvolvida para o blog de reviews de jogos digitais.
+API desenvolvida para um blog de reviews sobre jogos digitais.
 
 ## Descrição
 
-Este projeto é uma API RESTful construída com Node.js, Express, TypeScript, MongoDB e Mongoose. Ele oferece endpoints para gerenciar conteúdo de um blog de jogos, permitindo operações CRUD (Create, Read, Update, Delete) em várias páginas, como a homepage e a página de notícias.
+Este projeto é uma API RESTful construída com Node.js e MongoDB. Ele oferece endpoints para gerenciar conteúdo de um blog sobre jogos, permitindo operações CRUD (Create, Read, Update, Delete) em várias páginas.
 
-## Funcionalidades
+## Ferramentas
 
 - **OOP:** Implementação de modelo orientado a objetos.
 - **ODM:** Utilização do Mongoose para modelagem de dados no MongoDB.
 - **Middlewares:** Tratamento de requisições, parsing de JSON e gerenciamento de erros.
 - **Autenticação:** Integração com JWT para proteção de rotas e controle de acesso.
-- **Deploy:** Hospedagem na Vercel.
 
-## Endpoints
+## Pontos de acesso
 
 - `GET /homepage`: Retorna todos os itens da homepage.
 - `GET /homepage/:id`: Retorna um item específico da homepage pelo ID.
@@ -24,18 +23,22 @@ Este projeto é uma API RESTful construída com Node.js, Express, TypeScript, Mo
 
 ## Instalação
 
-## Instalação
-
 1. Clone o repositório:
    ```bash
    git clone https://github.com/peterrbarros17/pion-api.git
-3. ```bash
+   ```
+2. ```bash
    cd-pion-api
-4. ```bash
+   ```
+3. ```bash
    npm install
 
-5. Configure as variáveis de ambiente (MongoDB URI, JWT Secret, etc.).
+   ```
 
-6. Inicie o servidor:
+4. Configure as variáveis de ambiente (MongoDB URI, JWT Secret, etc.).
+
+5. Inicie o servidor:
+
 ```bash
    npm run dev
+```
