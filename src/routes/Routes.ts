@@ -8,12 +8,20 @@ class Routes {
   constructor(private app: Application) {}
 
   private setupRoutes(): void {
-    this.app.route("/").get(this.handleRootRequest);
-    this.app.use(cors());
+
+    this.app.use(cors({
+      origin: "https://pion-review.vercel.app",
+      methods: ["GET", "POST", "PUT", "DELETE"],
+      allowedHeaders: ["Content-Type", "Authorization"],
+      credentials: true
+    }));
+
     this.app.use(json(), new HomeCardRouter().getRouterHomeCard());
     this.app.use(json(), new NewsRouter().getRouterNews());
     this.app.use(json(), new ReviewsRouter().getRouterReviews());
     this.app.use(json(), new LoginRouter().getRouterLogin());
+
+    this.app.route("/").get(this.handleRootRequest);
   }
 
   private handleRootRequest(_: Request, res: Response): void {
