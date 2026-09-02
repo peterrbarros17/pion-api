@@ -1,8 +1,12 @@
 import "dotenv/config.js";
 import App from "./app/App.js";
 
-const PORT = 3000 || process.env.DB_CONNECTION_STRING;
+const PORT = Number(process.env.PORT) || 3000;
 
 const appInstance = new App();
 
-appInstance.listen(PORT);
+if (!process.env.VERCEL) {
+  appInstance.listen(PORT);
+}
+
+export default appInstance.app;

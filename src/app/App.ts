@@ -1,4 +1,4 @@
-import e, { Application } from "express";
+import e, { Application, NextFunction, Request, Response } from "express";
 import dbConnect from "../config/dbConnect.js";
 import Routes from "../routes/Routes.js";
 import manipulation404 from "../middlewares/manipulation404.js";
@@ -9,14 +9,35 @@ class App {
 
   constructor() {
     this.app = e();
+    this.setDatabaseMiddleware();
     this.setRoutes();
-    this.connectDataBase();
   }
 
   public listen(PORT: string | number): void {
-    this.app.listen(PORT, () =>
-      console.log(`Server running in http://localhost:${PORT}`)
-    );
+    this.app.listen(PORT, async () => {
+      console.log(`Server running in http://localhost:${PORT}`);
+      try {
+        await dbConnect();
+        console.log("Conexão com o DB, ok!");
+      } catch (err) {
+        console.error("Erro ao conectar ao DB", err);
+      }
+    });
+  }
+
+  private setDatabaseMiddleware(): void {
+    this.app.use(async (req: Request, res: Response, next: NextFunction) => {
+      if (req.path === "/") {
+        return next();
+      }
+
+      try {
+        await dbConnect();
+        next();
+      } catch (err) {
+        next(err);
+      }
+    });
   }
 
   private setRoutes(): void {
@@ -27,21 +48,6 @@ class App {
   private setManipulationErrors(): void {
     this.app.use(manipulation404);
     this.app.use(manipulationErrors);
-  }
-
-  private async connectDataBase(): Promise<any> {
-    const connection = await dbConnect();
-
-    connection.on("error", this.onDataBaseError);
-
-    connection.once("open", this.onDataBaseOpen);
-  }
-
-  private onDataBaseError(): void {
-    console.log("Erro ao conectar ao DB");
-  }
-  private onDataBaseOpen(): void {
-    console.log("Conexão com o DB, ok!");
   }
 }
 

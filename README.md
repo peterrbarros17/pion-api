@@ -33,7 +33,7 @@ The blog UI is in Portuguese (`pt-BR`). This API is the content backend behind i
 | CORS | `cors` (origin: `https://pion-review.vercel.app`) |
 | Tests | Vitest, Supertest |
 | Dev | `tsx` (watch), dotenv |
-| Deploy | Vercel (`@vercel/node`) |
+| Deploy | Vercel (Express serverless) |
 
 ## Prerequisites
 
@@ -157,9 +157,15 @@ Unless noted, mutating routes require a Bearer token from `POST /login`.
 
 ## Deployment
 
-Configured for [Vercel](https://vercel.com/) via `vercel.json` (Node serverless, entry `src/server.ts`).
+The API is set up for [Vercel](https://vercel.com/) Express (zero-config). `src/server.ts` exports the Express app; locally it still listens on port 3000.
 
-Set `DB_CONNECTION_STRING` in the Vercel project environment. The production frontend is allowed by CORS at `https://pion-review.vercel.app`.
+In the Vercel project:
+
+1. Set `DB_CONNECTION_STRING` (Production and Preview) to a MongoDB Atlas URI. Localhost will not work on Vercel.
+2. In Atlas **Network Access**, allow `0.0.0.0/0` (or Vercel’s egress IPs). If Atlas blocks the function, `/homepage` waits until Vercel returns **504 FUNCTION_INVOCATION_TIMEOUT**.
+3. Redeploy after changing env vars.
+
+The production frontend is allowed by CORS at `https://pion-review.vercel.app`.
 
 ## License
 

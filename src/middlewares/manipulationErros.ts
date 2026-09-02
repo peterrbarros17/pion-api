@@ -19,6 +19,7 @@ export default function manipulationErrors(
   } else if (erro instanceof NotFound) {
     erro.sendResponse(res);
   } else {
+    console.error(erro);
     new ErrorBase().sendResponse(res);
   }
 }
