@@ -1,44 +1,166 @@
 # Pion API
 
-API desenvolvida para um blog de reviews sobre jogos digitais.
+REST API that serves content for [Pion Review](https://github.com/peterrbarros17/pion-review), a Next.js blog about retro and current games.
 
-## Descrição
+It stores featured homepage posts, news, and reviews in MongoDB, and exposes them as JSON so the frontend can list, search, and render slug-based pages. Write operations are protected with JWT.
 
-Este projeto é uma API RESTful construída com Node.js e MongoDB. Ele oferece endpoints para gerenciar conteúdo de um blog sobre jogos, permitindo operações CRUD (Create, Read, Update, Delete) em várias páginas.
+- Frontend: [pion-review](https://github.com/peterrbarros17/pion-review) · [live site](https://pion-review.vercel.app)
+- API (this repo): [pion-api](https://github.com/peterrbarros17/pion-api) · [live API](https://pion-api.vercel.app)
 
-## Ferramentas
+## Purpose
 
-- **OOP:** Implementação de modelo orientado a objetos.
-- **ODM:** Utilização do Mongoose para modelagem de dados no MongoDB.
-- **Middlewares:** Tratamento de requisições, parsing de JSON e gerenciamento de erros.
-- **Autenticação:** Integração com JWT para proteção de rotas e controle de acesso.
+Built as a personal / portfolio project to practice backend development: Express with TypeScript, MongoDB/Mongoose, JWT auth, CORS, error handling, and deploying a Node API on Vercel.
 
-## Pontos de acesso
+The blog UI is in Portuguese (`pt-BR`). This API is the content backend behind it.
 
-- `GET /homepage`: Retorna todos os itens da homepage.
-- `GET /homepage/:id`: Retorna um item específico da homepage pelo ID.
-- `POST /homepage`: Cria um novo item na homepage.
-- `PUT /newspage/:id`: Atualiza um item na página de notícias.
-- `DELETE /reviewspage/:id`: Deleta um item na página de reviews.
+## Features
 
-## Instalação
+- CRUD for homepage cards, news, and reviews
+- Search across all collections by title (`GET /search?title=`)
+- Review lookup by slug (`GET /reviewspage?slug=`)
+- JWT login; create / update / delete routes require `Authorization: Bearer <token>`
+- CORS limited to the Pion Review production origin
+- Centralized 404 and error middleware
 
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/peterrbarros17/pion-api.git
-   ```
-2. ```bash
-   cd-pion-api
-   ```
-3. ```bash
-   npm install
+## Tech stack
 
-   ```
+| Area | Tools |
+| --- | --- |
+| Runtime | Node.js, TypeScript |
+| Framework | Express 4 |
+| Database | MongoDB + Mongoose |
+| Auth | JWT (`jsonwebtoken`), password hashing with bcrypt |
+| CORS | `cors` (origin: `https://pion-review.vercel.app`) |
+| Tests | Vitest, Supertest |
+| Dev | `tsx` (watch), dotenv |
+| Deploy | Vercel (`@vercel/node`) |
 
-4. Configure as variáveis de ambiente (MongoDB URI, JWT Secret, etc.).
+## Prerequisites
 
-5. Inicie o servidor:
+- Node.js 18 or later
+- npm
+- A MongoDB instance (local or Atlas) and its connection string
+
+## Getting started
 
 ```bash
-   npm run dev
+git clone https://github.com/peterrbarros17/pion-api.git
+cd pion-api
+npm install
 ```
+
+Create a `.env` file in the project root:
+
+```env
+DB_CONNECTION_STRING=mongodb://localhost:27017/pion
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+The API listens on [http://localhost:3000](http://localhost:3000). Open `/` for a simple index of the public list endpoints.
+
+To run the blog against a local API, point `src/lib/getPosts.ts` in [pion-review](https://github.com/peterrbarros17/pion-review) at `http://localhost:3000`. CORS currently allows only the production frontend origin, so you may need to add `http://localhost:3000` (the Next.js origin) to `src/routes/Routes.ts` while developing locally.
+
+## Scripts
+
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the API with `tsx watch` (hot reload) |
+| `npm run build` | Compile TypeScript to `./build` |
+| `npm start` | Run the compiled server (`node ./build/server.js`) |
+| `npm test` | Run tests with Vitest |
+| `npm run test:coverage` | Run tests with coverage |
+
+## Project structure
+
+```
+src/
+  app/           # Express app bootstrap
+  config/        # MongoDB connection
+  controllers/   # Route handlers
+  errs/          # Custom error classes
+  middlewares/   # JWT auth, 404, error handling
+  models/        # Mongoose schemas
+  routes/        # Express routers
+  tests/         # Vitest tests
+  server.ts      # Entry point
+```
+
+## Endpoints
+
+Unless noted, mutating routes require a Bearer token from `POST /login`.
+
+### Auth
+
+| Method | Path | Auth | Description |
+| --- | --- | --- | --- |
+| `POST` | `/login` | No | Body: `{ "username", "password" }`. Returns `{ "token" }`. |
+
+### Homepage (featured posts)
+
+| Method | Path | Auth | Description |
+| --- | --- | --- | --- |
+| `GET` | `/homepage` | No | List all homepage cards |
+| `GET` | `/homepage/:id` | No | Get one card by MongoDB id |
+| `POST` | `/homepage` | Yes | Create a card |
+| `PUT` | `/homepage/:id` | Yes | Update a card |
+| `DELETE` | `/homepage/:id` | Yes | Delete a card |
+
+### News
+
+| Method | Path | Auth | Description |
+| --- | --- | --- | --- |
+| `GET` | `/newspage` | No | List all news |
+| `GET` | `/newspage/:id` | No | Get one news item by id |
+| `POST` | `/newspage` | Yes | Create one item or insert many (array body) |
+| `PUT` | `/newspage/:id` | Yes | Update a news item |
+| `DELETE` | `/newspage/:id` | Yes | Delete a news item |
+
+### Reviews
+
+| Method | Path | Auth | Description |
+| --- | --- | --- | --- |
+| `GET` | `/reviewspage` | No | List all reviews |
+| `GET` | `/reviewspage?slug=` | No | Get one review by slug |
+| `GET` | `/reviewspage/:id` | No | Get one review by id |
+| `POST` | `/reviewspage` | Yes | Create one review or insert many (array body) |
+| `PUT` | `/reviewspage/:id` | Yes | Update a review |
+| `DELETE` | `/reviewspage/:id` | Yes | Delete a review |
+
+### Search
+
+| Method | Path | Auth | Description |
+| --- | --- | --- | --- |
+| `GET` | `/search?title=` | No | Case-insensitive title search across homepage, news, and reviews |
+
+## Resources used by the blog
+
+[pion-review](https://github.com/peterrbarros17/pion-review) currently calls:
+
+- `GET /homepage`
+- `GET /newspage`
+- `GET /reviewspage`
+- `GET /search?title=`
+- `GET /{page}?slug=` (review detail)
+
+## Data models (high level)
+
+**Homepage card / review:** `alt`, `url`, `title`, `description`, `slug`, `content[]` (`type`, `text`, `alt`, `src`), timestamps.
+
+**News:** `title`, `description`, `slug`, timestamps.
+
+**User:** `username` (unique), `password` (bcrypt hash). Used only for login.
+
+## Deployment
+
+Configured for [Vercel](https://vercel.com/) via `vercel.json` (Node serverless, entry `src/server.ts`).
+
+Set `DB_CONNECTION_STRING` in the Vercel project environment. The production frontend is allowed by CORS at `https://pion-review.vercel.app`.
+
+## License
+
+Private project — created for learning and portfolio use.
