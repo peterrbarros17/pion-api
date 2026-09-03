@@ -32,6 +32,16 @@ interface ReviewSection {
   score?: number;
 }
 
+interface SourceVideo {
+  provider?: string;
+  url?: string;
+  videoId?: string;
+  title?: string;
+  channelName?: string;
+  channelUrl?: string;
+  thumbnailUrl?: string;
+}
+
 interface ReviewsInterface extends Document {
   alt: string;
   url: string;
@@ -47,6 +57,8 @@ interface ReviewsInterface extends Document {
   summary?: string;
   /** Optional link back to the stream(s) that produced this review */
   sourceStreamIds?: string[];
+  /** Watch URL / channel credit for the VOD this review was made from */
+  sourceVideo?: SourceVideo;
 }
 
 const ContentSchema = new Schema({
@@ -90,6 +102,19 @@ const SectionSchema = new Schema(
   { _id: false }
 );
 
+const SourceVideoSchema = new Schema(
+  {
+    provider: { type: String },
+    url: { type: String },
+    videoId: { type: String },
+    title: { type: String },
+    channelName: { type: String },
+    channelUrl: { type: String },
+    thumbnailUrl: { type: String },
+  },
+  { _id: false }
+);
+
 const reviewsSchema = new Schema(
   {
     alt: { type: Schema.Types.String, required: [true, "alt is required"] },
@@ -111,6 +136,7 @@ const reviewsSchema = new Schema(
     sections: [SectionSchema],
     summary: { type: Schema.Types.String },
     sourceStreamIds: [{ type: Schema.Types.String }],
+    sourceVideo: { type: SourceVideoSchema },
   },
   { versionKey: false, timestamps: true }
 );
