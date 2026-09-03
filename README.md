@@ -99,6 +99,7 @@ Unless noted, mutating routes require a Bearer token from `POST /login`.
 | Method | Path | Auth | Description |
 | --- | --- | --- | --- |
 | `POST` | `/login` | No | Body: `{ "username", "password" }`. Returns `{ "token" }`. |
+| `POST` | `/register` | No | Body: `{ "username", "password" }`. Creates a user (password hashed with bcrypt) and returns `{ "username", "token" }`. |
 
 ### Homepage (featured posts)
 

@@ -40,6 +40,8 @@ class Routes {
     <li><a href="/homepage">Homepage</a></li>
     <li><a href="/newspage">Newspage</a></li>
     <li><a href="/reviewspage">Reviewspage</a></li>
+    <li>POST /login</li>
+    <li>POST /register</li>
         </ul>
         </body>
         </html>

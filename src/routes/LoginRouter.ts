@@ -10,7 +10,9 @@ class LoginRouter {
   }
 
   private initRoutes(): void {
-    this.app.post("/login", new LoginController().login);
+    const controller = new LoginController();
+    this.app.post("/login", controller.login);
+    this.app.post("/register", controller.register);
   }
 
   public getRouterLogin(): Router {
