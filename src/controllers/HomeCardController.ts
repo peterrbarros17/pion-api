@@ -9,7 +9,7 @@ class HomeCardController {
     next: NextFunction
   ): Promise<void> {
     try {
-      const homeCards = await HomeCard.find({});
+      const homeCards = await HomeCard.find({}).sort({ createdAt: -1, _id: -1 });
       res.status(200).json(homeCards);
     } catch (err) {
       next(err);
@@ -91,11 +91,17 @@ class HomeCardController {
         filter = { title: { $regex: title as string, $options: "i" } };
       }
       const [homecard, news, reviews] = await Promise.all([
-        HomeCard.find(filter),
-        News.find(filter),
-        Reviews.find(filter),
+        HomeCard.find(filter).sort({ createdAt: -1, _id: -1 }),
+        News.find(filter).sort({ createdAt: -1, _id: -1 }),
+        Reviews.find(filter).sort({ createdAt: -1, _id: -1 }),
       ]);
-      const allPosts = [...homecard, ...news, ...reviews];
+      const timestamp = (doc: { createdAt?: Date; _id: { getTimestamp: () => Date } }) =>
+        doc.createdAt
+          ? new Date(doc.createdAt).getTime()
+          : doc._id.getTimestamp().getTime();
+      const allPosts = [...homecard, ...news, ...reviews].sort(
+        (a, b) => timestamp(b) - timestamp(a)
+      );
 
       res.status(200).json(allPosts);
     } catch (err) {

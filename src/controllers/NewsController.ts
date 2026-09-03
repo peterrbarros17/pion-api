@@ -9,7 +9,7 @@ class NewsController {
     next: NextFunction
   ): Promise<void> {
     try {
-      const news = await News.find({});
+      const news = await News.find({}).sort({ createdAt: -1, _id: -1 });
       res.status(200).json(news);
     } catch (err) {
       next(err);

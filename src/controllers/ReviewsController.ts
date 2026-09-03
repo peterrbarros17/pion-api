@@ -9,7 +9,7 @@ class ReviewsController {
     next: NextFunction
   ): Promise<void> {
     try {
-      const reviews = await Reviews.find({});
+      const reviews = await Reviews.find({}).sort({ createdAt: -1, _id: -1 });
       res.status(200).json(reviews);
     } catch (err) {
       next(err);
@@ -100,7 +100,7 @@ class ReviewsController {
           next(new NotFound("Review with the specified slug not found"));
         }
       } else {
-        const reviews = await Reviews.find({});
+        const reviews = await Reviews.find({}).sort({ createdAt: -1, _id: -1 });
         res.status(200).json(reviews);
       }
     } catch (err) {
