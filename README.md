@@ -75,6 +75,30 @@ To run the blog against a local API, point `src/lib/getPosts.ts` in [pion-review
 | `npm test` | Run tests with Vitest |
 | `npm run test:coverage` | Run tests with coverage |
 
+## Spec-driven development
+
+This project uses [GitHub Spec Kit](https://github.com/github/spec-kit) to plan
+bounded features against the existing API. Install its CLI with Python 3.11+
+and [uv](https://docs.astral.sh/uv/), then initialize the Copilot integration
+from the repository root:
+
+```bash
+uv tool install specify-cli
+specify init --here --force --integration copilot
+```
+
+Review the generated files before accepting them. The initializer installs the
+Spec Kit project files and Copilot skills; it may replace managed files such
+as `.specify/memory/constitution.md`. If it does, use
+`/speckit-constitution` to restore the project principles in that file. The
+principles are also recorded in [Copilot instructions](.github/copilot-instructions.md).
+
+For each feature, use the installed `/speckit-specify`, `/speckit-clarify`,
+`/speckit-plan`, `/speckit-tasks`, `/speckit-analyze`, `/speckit-implement`,
+and `/speckit-converge` skills in Copilot chat, reviewing each artifact before
+moving on. Establish or update the project constitution with
+`/speckit-constitution` when needed.
+
 ## Project structure
 
 ```
